@@ -1,0 +1,25 @@
+[package]
+name = "pallet-stealth-zk-weights"
+version = "0.1.0"
+edition = "2021"
+license = "MIT-0"
+publish = false
+description = "Weights dla palety stealth-zk"
+repository = "https://github.com/wakeup8787/AnonX-CoreChain"
+
+[dependencies]
+# FRAME (ścieżki relatywne z weights/ → stealth-zk/ → pallets/ → anonx-node/ → substrate/...)
+frame-support     = { path = "../../../../substrate/frame/support", default-features = false }
+frame-system      = { path = "../../../../substrate/frame/system",  default-features = false }
+
+# Twoja paleta stealth-zk
+stealth-zk = { path = "../", default-features = false, features = ["std"] }
+
+[features]
+default = []
+std = [
+  "frame-support/std",
+  "frame-system/std",
+   "stealth-zk/std",
+]
+

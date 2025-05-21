@@ -1,0 +1,58 @@
+[package]
+name = "anonx-node"
+version = "4.0.0-dev"
+edition = "2021"
+description = "AnonX CoreChain node"
+license = "MIT-0"
+publish = false
+
+[[bin]]
+name = "anonx-node"
+path = "src/main.rs"
+
+[dependencies]
+clap       = { version = "4.2.5", features = ["derive"] }
+futures    = { version = "0.3.21", features = ["thread-pool"] }
+
+# → runtime jest TU: ../runtime
+runtime    = { path = "../runtime", default-features = false, features = ["std"] }
+
+# Substrate client / service / network / telemetry…
+sc-cli                       = { path = "../../substrate/client/cli", default-features = false }
+sc-executor                  = { path = "../../substrate/client/executor", default-features = false }
+sc-service                   = { path = "../../substrate/client/service", default-features = false }
+sc-network                   = { path = "../../substrate/client/network", default-features = false }
+sc-telemetry                 = { path = "../../substrate/client/telemetry", default-features = false }
+sc-transaction-pool          = { path = "../../substrate/client/transaction-pool", default-features = false }
+sc-transaction-pool-api      = { path = "../../substrate/client/transaction-pool/api", default-features = false }
+sc-offchain                  = { path = "../../substrate/client/offchain", default-features = false }
+sc-consensus-aura            = { path = "../../substrate/client/consensus/aura", default-features = false }
+sc-consensus-grandpa         = { path = "../../substrate/client/consensus/grandpa", default-features = false }
+sc-client-api                = { path = "../../substrate/client/api", default-features = false }
+
+# Primitives
+sp-core                      = { path = "../../substrate/primitives/core", default-features = false }
+sp-runtime                   = { path = "../../substrate/primitives/runtime", default-features = false }
+sp-io                        = { path = "../../substrate/primitives/io", default-features = false }
+sp-consensus-aura            = { path = "../../substrate/primitives/consensus/aura", default-features = false }
+sp-consensus-grandpa         = { path = "../../substrate/primitives/consensus/grandpa", default-features = false }
+sp-timestamp                 = { path = "../../substrate/primitives/timestamp", default-features = false }
+sp-inherents                 = { path = "../../substrate/primitives/inherents", default-features = false }
+sp-keyring                   = { path = "../../substrate/primitives/keyring", default-features = false }
+
+# FRAME-pallets
+frame-system                 = { path = "../../substrate/frame/system", default-features = false }
+pallet-transaction-payment   = { path = "../../substrate/frame/transaction-payment", default-features = false }
+
+# RPC
+jsonrpsee                    = { version = "0.16.2", features = ["server"] }
+substrate-frame-rpc-system   = { path = "../../substrate/utils/frame/rpc/system", default-features = false }
+pallet-transaction-payment-rpc = { path = "../../substrate/frame/transaction-payment/rpc", default-features = false }
+
+[build-dependencies]
+substrate-build-script-utils = { path = "../../substrate/utils/build-script-utils", default-features = false }
+
+[features]
+default = ["std"]
+std     = ["runtime/std"]
+

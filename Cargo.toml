@@ -1,15 +1,32 @@
 [workspace.package]
-authors = ["Parity Technologies <admin@parity.io>"]
+authors = ["AnonX Dev <dev@example.com>"]
 edition = "2021"
 homepage = "https://paritytech.github.io/polkadot-sdk/"
-license = "GPL-3.0-only"
+license = "Apache-2.0"
 repository = "https://github.com/paritytech/polkadot-sdk.git"
 
 [workspace]
 resolver = "2"
 
 members = [
-	"bridges/bin/runtime-common",
+         # 1) Primitives
+        "substrate/primitives/core",
+        "substrate/primitives/std",
+        "substrate/primitives/runtime",
+        "substrate/utils/substrate-bip39",
+
+         # 2) FRAME pallets używane w runtime
+        "substrate/frame/system",
+        "substrate/frame/support",
+        "substrate/frame/timestamp",
+        "substrate/frame/balances",
+        # …dodaj tu tylko te, które masz w runtime/Cargo.toml…
+
+        # 3) Twoje
+        "anonx-node/pallets/stealth-zk",
+        "anonx-node/pallets/stealth-zk/weights",
+        "anonx-node/runtime",
+        "anonx-node/node",
 	"bridges/chains/chain-cumulus",
 	"bridges/chains/chain-polkadot-bulletin",
 	"bridges/modules/beefy",
@@ -1267,8 +1284,8 @@ simple-mermaid = { version = "0.1.1" }
 slot-range-helper = { path = "polkadot/runtime/common/slot_range_helper", default-features = false }
 slotmap = { version = "1.0" }
 smallvec = { version = "1.11.0", default-features = false }
-smoldot = { version = "0.11.0", default-features = false }
-smoldot-light = { version = "0.9.0", default-features = false }
+smoldot = { version = "0.14.0", default-features = false }
+smoldot-light = { version = "0.14" }
 snowbridge-beacon-primitives = { path = "bridges/snowbridge/primitives/beacon", default-features = false }
 snowbridge-core = { path = "bridges/snowbridge/primitives/core", default-features = false }
 snowbridge-ethereum = { path = "bridges/snowbridge/primitives/ethereum", default-features = false }
@@ -1529,3 +1546,6 @@ wasmi = { opt-level = 3 }
 x25519-dalek = { opt-level = 3 }
 yamux = { opt-level = 3 }
 zeroize = { opt-level = 3 }
+
+[patch.crates-io]
+substrate-bip39 = { path = "substrate/utils/substrate-bip39" }

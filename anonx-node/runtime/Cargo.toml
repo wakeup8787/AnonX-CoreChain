@@ -1,0 +1,83 @@
+[package]
+name = "runtime"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# SCALE/serde
+parity-scale-codec = { version = "3.6.1", default-features = false, features = ["derive"] }
+scale-info         = { version = "2.5.0", default-features = false, features = ["derive","serde"] }
+serde_json         = { version = "1.0.82", default-features = false, features = ["alloc"] }
+
+# FRAME core — ściśle z Twojego klona substrate/
+frame-executive               = { path = "../../substrate/frame/executive",      default-features = false }
+frame-metadata-hash-extension = { path = "../../substrate/frame/metadata-hash-extension", default-features = false }
+frame-support                 = { path = "../../substrate/frame/support",        default-features = false, features = ["experimental"] }
+frame-system                  = { path = "../../substrate/frame/system",         default-features = false }
+frame-try-runtime             = { path = "../../substrate/frame/try-runtime",    default-features = false, optional = true }
+
+# FRAME pallets
+pallet-aura                   = { path = "../../substrate/frame/aura",            default-features = false }
+pallet-balances               = { path = "../../substrate/frame/balances",        default-features = false }
+pallet-grandpa                = { path = "../../substrate/frame/grandpa",         default-features = false }
+pallet-sudo                   = { path = "../../substrate/frame/sudo",            default-features = false }
+pallet-timestamp              = { path = "../../substrate/frame/timestamp",       default-features = false }
+pallet-transaction-payment    = { path = "../../substrate/frame/transaction-payment", default-features = false }
+
+# Twoja paleta
+stealth-zk                    = { path = "../pallets/stealth-zk",                 default-features = false, features = ["std"] }
+pallet-stealth-zk-weights     = { path = "../pallets/stealth-zk/weights",         default-features = false, features = ["std"] }
+
+# SP primitives — lokalne
+sp-core                       = { path = "../../substrate/primitives/core",      default-features = false }
+sp-runtime                    = { path = "../../substrate/primitives/runtime",   default-features = false }
+sp-std                        = { path = "../../substrate/primitives/std",       default-features = false }
+sp-api                        = { path = "../../substrate/primitives/api",       default-features = false }
+# …jeśli używasz innych sp-… crates, to analogicznie…
+
+# substrate-bip39 — lokalne
+substrate-bip39               = { path = "../../substrate/utils/substrate-bip39", default-features = false }
+
+# RPC APIs
+frame-system-rpc-runtime-api  = { path = "../../substrate/frame/system/rpc/runtime-api", default-features = false }
+pallet-transaction-payment-rpc-runtime-api = { path = "../../substrate/frame/transaction-payment/rpc/runtime-api", default-features = false }
+
+[build-dependencies]
+substrate-wasm-builder        = { path = "../../substrate/utils/wasm-builder",  default-features = true, optional = true }
+
+
+[features]
+default = ["std"]
+std = [
+  "pallet-stealth-zk-weights/std",
+  "parity-scale-codec/std","scale-info/std","serde_json/std",
+  "frame-executive/std","frame-metadata-hash-extension/std","frame-support/std","frame-system/std",
+  "pallet-aura/std","pallet-balances/std","pallet-grandpa/std","pallet-sudo/std","pallet-timestamp/std","pallet-transaction-payment/std",
+  "stealth-zk/std",
+  "pallet-stealth-zk-weights/std",
+  "sp-api/std","sp-runtime/std","sp-std/std","sp-core/std",
+  "frame-system-rpc-runtime-api/std","pallet-transaction-payment-rpc-runtime-api/std",
+  "substrate-wasm-builder",
+]
+
+runtime-benchmarks = [
+  "frame-support/runtime-benchmarks",
+  "frame-system/runtime-benchmarks",
+  "pallet-transaction-payment/runtime-benchmarks",
+  "stealth-zk/runtime-benchmarks",
+]
+
+try-runtime = [
+  "frame-executive/try-runtime",
+  "frame-support/try-runtime",
+  "frame-system/try-runtime",
+  "frame-try-runtime/try-runtime",
+  "pallet-aura/try-runtime",
+  "pallet-balances/try-runtime",
+  "pallet-grandpa/try-runtime",
+  "pallet-sudo/try-runtime",
+  "pallet-timestamp/try-runtime",
+  "pallet-transaction-payment/try-runtime",
+  "sp-runtime/try-runtime",
+]
+

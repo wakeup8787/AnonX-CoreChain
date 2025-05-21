@@ -1,0 +1,26 @@
+[workspace.package]
+edition = "2021"
+authors = ["AnonX Dev <dev@example.com>"]
+license = "Apache-2.0"
+homepage = "https://paritytech.github.io/polkadot-sdk/"
+repository = "https://github.com/paritytech/polkadot-sdk.git"
+
+[workspace]
+members = [
+  "substrate/primitives/core",
+  "substrate/utils/substrate-bip39",
+  "substrate/frame/executive",
+  "node",
+  "runtime",
+  "pallets/stealth-zk",
+  "pallets/stealth-zk/weights",
+]
+
+[profile.release]
+opt-level     = "z"
+lto           = true
+codegen-units = 1
+debug         = false
+panic         = "abort"
+strip         = true
+
